@@ -26,6 +26,7 @@ export async function requireUser() {
         id: userId,
         email: primaryEmail!,
         createdAt: new Date(),
+        
       },
     });
   }

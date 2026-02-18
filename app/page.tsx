@@ -1,16 +1,5 @@
-import { SignedIn, SignedOut, SignIn, SignInButton, UserButton } from "@clerk/nextjs";
-import Image from "next/image";
+import LandingPage from "@/components/global/landing-page";
 
 export default function Home() {
-  return (
-   <div> 
-      <SignedOut>
-        <SignInButton></SignInButton>
-      </SignedOut>
-      <SignedIn>
-        <UserButton></UserButton>
-      </SignedIn>
-
-   </div>
-  );
+  return <LandingPage/>
 }
