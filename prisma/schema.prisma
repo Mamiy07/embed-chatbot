@@ -17,13 +17,13 @@ datasource db {
 model User {
   id        String    @id // store Clerk userId here
   email     String
-  settings  Settings?
+  settings  Settings[]
   createdAt DateTime  @default(now())
 }
 
 model Settings {
   id        String   @id @default(cuid())
-  userId    String   @unique
+  userId    String   
   user      User     @relation(fields: [userId], references: [id])
   businessName String
   supportEmail String

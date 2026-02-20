@@ -1,16 +1,20 @@
-
-
 import { requireUser } from "@/actions/user";
-import { SignOutButton } from "@clerk/nextjs";
+import EmbedButton from "@/components/global/create-embedai";
+import { SignOutButton, UserButton, UserProfile } from "@clerk/nextjs";
 const Page = async () => {
   const user = await requireUser();
-  return (
-    <div>
-      <h1>Dashboard</h1>
-      <SignOutButton/>
-      
-    </div>
-  )
-}
 
-export default Page
+  return (
+    <div className="flex flex-col h-screen">
+      <div className="flex justify-between items-center p-4 border-b">
+        <h1 className="text-2xl ">EmbedAI</h1>
+        <div className="flex items-center gap-4 px-4">
+          <EmbedButton /> 
+            <UserButton/>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Page;
