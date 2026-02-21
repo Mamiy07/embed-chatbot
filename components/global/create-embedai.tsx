@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from '../ui/dialog'
 import { Field, FieldGroup } from '../ui/field'
@@ -8,15 +8,31 @@ import { Label } from '../ui/label'
 import { useMutation } from '@tanstack/react-query'
 import { createBusiness } from '@/actions/business'
 import { Textarea } from '../ui/textarea'
+import { encrypt } from '@/lib/encryption'
+import { DropdownMenuDemo } from './dropdownmenu'
     
 const EmbedButton = () => {
+  const MODEL_OPTIONS: Record<string, string[]> = {
+  openai: ['gpt-4', 'gpt-4o', 'gpt-3.5-turbo'],
+  gemini: ['gemini-2.0-flash-lite','gemini-2.5-flash', 'gemini-1.5-pro'],
+  claude: ['claude-2', 'claude-3-sonnet'],
+} 
    const [open, setOpen] = useState(false)
    const [businessName, setBusinessName] = useState('')
    const [supportEmail, setSupportEmail] = useState('')
    const [description, setDescription] = useState('')
+   const [aiProvider, setAiProvider] = useState('')
+   const [encryptedApiKey, setApiKey] = useState('')
+   const [model, setModel] = useState('')
+ const availableModels = aiProvider ? MODEL_OPTIONS[aiProvider] || [] : []
+  
+useEffect(() => {
+}, [aiProvider])
+  
+
    const {mutate:createBusinessMutation} = useMutation({
         mutationFn: async () => {
-            await createBusiness({businessName, supportEmail, description})
+            await createBusiness({businessName, supportEmail, description, aiProvider, encryptedApiKey, model})
         },
         mutationKey: ['create-business'],
         onSuccess: () => {      
@@ -24,15 +40,17 @@ const EmbedButton = () => {
             setBusinessName(''),
             setSupportEmail(''),
             setDescription('')
+            setAiProvider('')
+            setApiKey('')
+            setModel('')
         }
-
    })
   return (
     <div>
-  <Button className='bg-white text-black' variant="default" onClick={() => setOpen(true)}>Create Embed</Button>
+  <Button className='bg-white text-black' variant="default" onClick={() => setOpen(true)}>Create Chatbot</Button>
     <Dialog open={open} onOpenChange={setOpen}>
     
-        <DialogContent className="sm:max-w-sm  ">
+     <DialogContent className="sm:max-w-lg w-full ">
           <DialogHeader>
             <DialogTitle>Create New Embed</DialogTitle>
             <DialogDescription>
@@ -40,6 +58,8 @@ const EmbedButton = () => {
             </DialogDescription>
           </DialogHeader>
           <FieldGroup >
+            <div className="grid grid-cols-2 gap-4">
+
             <Field>
               <Label htmlFor="name-1">Business Name</Label>
               <Input id="name-1" value={businessName} onChange={e => setBusinessName(e.target.value)} name="name" placeholder="Name of your business" />
@@ -47,6 +67,22 @@ const EmbedButton = () => {
             <Field>
               <Label htmlFor="username-1">Business Email</Label>
               <Input id="username-1" value={supportEmail} onChange={e => setSupportEmail(e.target.value)} name="username" placeholder="abc@gmail.com" />
+            </Field>
+            </div>
+            <div className='grid grid-cols-2 gap-4'>
+
+              <Field>
+              <Label htmlFor="aiProvider-1">AI Provider</Label>
+               <DropdownMenuDemo value={aiProvider} items={['gemini', 'openai', 'claude']} onSelect={(value) =>{ setAiProvider(value) , setModel('')}} />
+              </Field>
+                <Field>
+              <Label htmlFor="model-1">Model</Label>
+              <DropdownMenuDemo value={model} items={availableModels} onSelect={(value) => setModel(value)} disabled={!aiProvider} />
+              </Field>
+            </div>
+               <Field>
+              <Label htmlFor="apiKey-1">API Key</Label>
+              <Input id="apiKey-1" value={encryptedApiKey} onChange={e => setApiKey(e.target.value)} name="apiKey" placeholder="Your API Key" />
             </Field>
          <Field>
               <Label htmlFor="description-1">Description</Label>
@@ -63,7 +99,7 @@ const EmbedButton = () => {
     -  support hours : 9am to 5pm (GMT+1) on weekdays.
     -  support email : yourcompany@gmail.com
       `}
-    className="min-h-[200px] min-w-[300px] max-h-[200px] overflow-y-auto resize-none"
+   className="min-h-[160px] max-h-[160px] overflow-y-auto resize-none"
   />
             </Field>
           </FieldGroup>
@@ -81,3 +117,7 @@ const EmbedButton = () => {
 }
 
 export default EmbedButton
+
+//added model selection based on ai provider
+// added encryption for api key before sending to server
+//need to create generateAIResponse

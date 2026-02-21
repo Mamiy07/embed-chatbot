@@ -1,11 +1,12 @@
+import { generateAIResponse } from "@/lib/ai-provider";
+import { decrypt } from "@/lib/encryption";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-import { GoogleGenAI } from "@google/genai";
 
 // The client gets the API key from the environment variable `GEMINI_API_KEY`.
 export async function POST(request: NextRequest) {
-    const ai = new GoogleGenAI({apiKey: process.env.GEMINI_API_KEY});
+   
 
     try {
         const {message, businessId} = await request.json()
@@ -25,6 +26,8 @@ export async function POST(request: NextRequest) {
          Description: ${settings.description} 
         `
           const safeMessage = message.toString().slice(0, 2000);
+    const decryptedKey = decrypt(settings.encryptedApiKey)
+
        const prompt = `
 You are an embeddable customer support chatbot.
 
@@ -75,13 +78,15 @@ When answering:
 - Only use facts explicitly stated in the Business Information
  `;
 
-const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: prompt,
-  });
+  const response = await generateAIResponse({
+    model: settings.model,
+    content: prompt,
+    aiProvider: settings.aiProvider,
+    encryptedApiKey: decryptedKey
+  })
  
 
-  return NextResponse.json({answer: response.text },{status: 200})
+  return NextResponse.json({answer: response },{status: 200})
  
     } catch (error) {
         console.error(error)       
