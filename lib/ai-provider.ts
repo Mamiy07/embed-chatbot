@@ -18,14 +18,14 @@ export const generateAIResponse = async ({model, content, aiProvider, encryptedA
       });
       return response.text
    }if(aiProvider === 'openai'){
-    const client = new OpenAI();
+    const client = new OpenAI({apiKey: encryptedApiKey});
     const response = await client.responses.create({
     model: model,
     input: content
 });
 return response.output_text
    }if(aiProvider === 'claude'){
-       const anthropic = new Anthropic();
+       const anthropic = new Anthropic({apiKey: encryptedApiKey});
        const msg = await anthropic.messages.create({
     model: model,
     max_tokens: 1000,

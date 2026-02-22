@@ -17,8 +17,6 @@ const Page = async () => {
     </div>
   );
 };
-//make each business owner hav their own api key 
-// save api key in db make sure to encrypt it and decrypt it when needed.
-// 
+
 
 export default Page;

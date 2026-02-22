@@ -84,7 +84,7 @@ When answering:
     aiProvider: settings.aiProvider,
     encryptedApiKey: decryptedKey
   })
- 
+ console.log("AI Response:", response)
 
   return NextResponse.json({answer: response },{status: 200})
  
