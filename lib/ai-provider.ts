@@ -36,7 +36,7 @@ return response.output_text
       }
     ]
   });
-      console.log(msg)
+    return (msg.content[0] as Anthropic.TextBlock).text
    }
 
 

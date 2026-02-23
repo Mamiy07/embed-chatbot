@@ -41,6 +41,8 @@ useEffect(() => {
       encryptedApiKey: encryptedApiKey,
     })
   },
+   mutationKey: ['create-business']
+  ,
   onSuccess: () => {
     setOpen(false)
     setBusinessName("")

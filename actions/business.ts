@@ -20,7 +20,7 @@ export async function createBusiness({
 }) {
   const user = await requireUser();
   const safeApiKey = encrypt(encryptedApiKey)
-  try {
+  try { 
     const settings = await prisma.settings.create({
       data: {
         businessName,
@@ -37,3 +37,17 @@ export async function createBusiness({
     console.log(error);
   }
 }
+
+
+export const getMyBusinesses = async () => {
+  const user = await requireUser();
+
+  return await prisma.settings.findMany({
+    where: {
+      userId: user.id,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+};

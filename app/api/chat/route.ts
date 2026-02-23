@@ -1,13 +1,27 @@
 import { generateAIResponse } from "@/lib/ai-provider";
 import { decrypt } from "@/lib/encryption";
 import { prisma } from "@/lib/prisma";
+import { he } from "date-fns/locale";
 import { NextRequest, NextResponse } from "next/server";
 
+export async function OPTIONS(request: NextRequest) {
+
+  return NextResponse.json(
+    {},
+    {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    }
+  );
+}
 
 // The client gets the API key from the environment variable `GEMINI_API_KEY`.
 export async function POST(request: NextRequest) {
-   
-
+  
     try {
         const {message, businessId} = await request.json()
         if(!message || !businessId) {
@@ -20,6 +34,7 @@ export async function POST(request: NextRequest) {
         if(!settings) {
             return new Response('Business not found', {status: 404})
         }
+         
         const description = `
          Business Name: ${settings.businessName}
          Support Email: ${settings.supportEmail}
@@ -43,6 +58,14 @@ ${safeMessage}
 ------------------------
 
 Rules:
+
+If the question is unrelated to the Business Information, or required details are missing, respond exactly with:
+
+Please Contact support
+
+However:
+- You may respond politely to greetings.
+- You may ask the customer to clarify if their question is vague.
 
 1. Use ONLY the Business Information provided above.
 2. You may rephrase or summarize the information if needed.
@@ -73,8 +96,12 @@ Please Contact support
 Do not add anything before or after that sentence.
 
 When answering:
+
 - Be clear and professional
 - Keep the response concise
+- Always refer back to the Business Information
+- Keep in mind that the customer may have limited understanding of the business details, so clarity is important.
+- Keep the answer short and to the point, ideally under 100 words.
 - Only use facts explicitly stated in the Business Information
  `;
 
@@ -84,9 +111,8 @@ When answering:
     aiProvider: settings.aiProvider,
     encryptedApiKey: decryptedKey
   })
- console.log("AI Response:", response)
 
-  return NextResponse.json({answer: response },{status: 200})
+  return NextResponse.json({answer: response },{status: 200, headers: {"Access-Control-Allow-Origin": "*"}})
  
     } catch (error) {
         console.error(error)       
