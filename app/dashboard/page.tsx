@@ -12,6 +12,7 @@ const Page = async () => {
         <div className="flex items-center gap-4 px-4">
           <EmbedButton /> 
             <UserButton/>
+            
         </div>
       </div>
       <div className="flex my-10 ">

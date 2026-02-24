@@ -5,10 +5,9 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { Field, FieldGroup } from '../ui/field'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
-import { useMutation } from '@tanstack/react-query'
+import {  useMutation, useQueryClient } from '@tanstack/react-query'
 import { createBusiness } from '@/actions/business'
 import { Textarea } from '../ui/textarea'
-import { encrypt } from '@/lib/encryption'
 import { DropdownMenuDemo } from './dropdownmenu'
 import { businessSchema } from '@/lib/schema'
 
@@ -19,6 +18,7 @@ const EmbedButton = () => {
   gemini: ['gemini-2.0-flash-lite','gemini-2.5-flash', 'gemini-1.5-pro'],
   claude: ['claude-2', 'claude-3-sonnet'],
 } 
+const queryClient = useQueryClient()
    const [open, setOpen] = useState(false)
    const [businessName, setBusinessName] = useState('')
    const [supportEmail, setSupportEmail] = useState('')
@@ -44,6 +44,7 @@ useEffect(() => {
    mutationKey: ['create-business']
   ,
   onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['my-businesses'] })
     setOpen(false)
     setBusinessName("")
     setSupportEmail("")
