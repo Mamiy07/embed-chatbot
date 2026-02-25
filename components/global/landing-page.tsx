@@ -17,6 +17,7 @@ import {
   Copy,
   ArrowRight,
   Send,
+  Check,
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -55,17 +56,12 @@ const FAQS = [
   {
     question: "Which AI models do you support?",
     answer:
-      "We currently support OpenAI GPT-4, GPT-3.5 Turbo, and Anthropic Claude 3. You can switch models instantly in your dashboard.",
+      "We currently support OpenAI, Anthropic , Gemini . You can switch models instantly in your dashboard.",
   },
   {
     question: "Is my API key secure?",
     answer:
       "Absolutely. Your keys are encrypted using AES-256 before being stored. We proxy all requests, so your key is never exposed to the client.",
-  },
-  {
-    question: "Can I white-label the widget?",
-    answer:
-      "Yes! The Pro plan allows you to remove the 'Powered by EmbedAI' branding and fully customize the widget's appearance.",
   },
   {
     question: "Does it work with App Router?",
@@ -75,7 +71,7 @@ const FAQS = [
   {
     question: "How do I train the chatbot?",
     answer:
-      "You can upload PDF documents, link your documentation URL for scraping, or manually enter Q&A pairs in the dashboard.",
+      "You can give description about your business in the dashboard , the more details you provide.",
   },
 ];
 
@@ -115,10 +111,11 @@ function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          {["Docs", "Pricing", "Examples", "GitHub"].map((item) => (
+          {["GitHub"].map((item) => (
             <Link
               key={item}
-              href={`#${item.toLowerCase()}`}
+              target="_blank"
+              href="https://github.com/Mamiy07/embed-chatbot"
               className="text-sm font-medium text-[#6B7A8D] hover:text-[#00FFA3] transition-colors"
             >
               {item}
@@ -128,12 +125,12 @@ function Navbar() {
 
         {/* CTA */}
         <div className="hidden md:flex items-center gap-4">
-          <button className="text-sm font-medium text-[#E6EDF3] hover:text-white transition-colors">
-            Get API Key
-          </button>
-          <button className="bg-[#00FFA3] text-[#080B10] px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-[#00FFA3]/90 hover:shadow-[0_0_20px_rgba(0,255,163,0.3)] transition-all transform hover:scale-105 active:scale-95">
+          <Link
+            href={"/api/sign-up"}
+            className="bg-[#00FFA3] text-[#080B10] px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-[#00FFA3]/90 hover:shadow-[0_0_20px_rgba(0,255,163,0.3)] transition-all transform hover:scale-105 active:scale-95"
+          >
             Start Free
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Toggle — FIX #1: closing } was missing from ternary */}
@@ -229,6 +226,7 @@ function ChatWidgetMock() {
     }, 1500);
   };
 
+  
   return (
     // FIX #7: perspective must sit on a wrapping parent, not the animated element
     <div style={{ perspective: "1000px" }} className="w-full max-w-sm mx-auto">
@@ -316,6 +314,18 @@ function ChatWidgetMock() {
 export default function LandingPage() {
   // FIX #6: initialise to -1 so no FAQ item is open by default
   const [activeStep, setActiveStep] = useState(-1);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText("npm i @mamiy/chatbot");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch (err) {
+      console.error("Copy failed", err);
+    }
+  };
+
 
   return (
     <div className="min-h-screen font-sans bg-[#080B10] text-[#E6EDF3] selection:bg-[#00FFA3]/30 selection:text-[#00FFA3] overflow-x-hidden">
@@ -373,7 +383,7 @@ export default function LandingPage() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00FFA3] opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00FFA3]" />
             </span>
-            v1.0 is now live
+            v1.1 is now live
           </motion.div>
 
           <h1 className="font-bold text-5xl md:text-7xl leading-[1.1] tracking-tight mb-6">
@@ -390,7 +400,7 @@ export default function LandingPage() {
 
           <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start mb-10">
             <Link
-              href="/dashboard"
+              href="/api/sign-up"
               className="group relative px-8 py-4 bg-[#00FFA3] text-[#080B10] rounded-xl font-bold text-lg overflow-hidden transition-all hover:shadow-[0_0_40px_rgba(0,255,163,0.4)] hover:-translate-y-1"
             >
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
@@ -400,7 +410,7 @@ export default function LandingPage() {
             </Link>
 
             <Link
-              href="https://github.com"
+              href="https://github.com/Mamiy07/embed-chatbot"
               target="_blank"
               className="px-8 py-4 bg-transparent border border-[#1E2D3D] text-[#E6EDF3] rounded-xl font-medium text-lg hover:border-[#6B7A8D] hover:bg-[#1E2D3D]/30 transition-all"
             >
@@ -408,13 +418,14 @@ export default function LandingPage() {
             </Link>
           </div>
 
-          <div className="inline-flex items-center gap-4 bg-[#0D1117] border border-[#1E2D3D] rounded-lg p-3 pr-6 font-mono text-sm group cursor-pointer hover:border-[#00FFA3]/50 transition-colors">
+          <div  className="inline-flex items-center gap-4 bg-[#0D1117] border border-[#1E2D3D] rounded-lg p-3 pr-6 font-mono text-sm group cursor-pointer hover:border-[#00FFA3]/50 transition-colors">
             <span className="text-[#6B7A8D]">$</span>
-            <span className="text-[#E6EDF3]">
-              npx embedai init
-              <span className="animate-pulse text-[#00FFA3]">_</span>
-            </span>
-            <Copy className="w-3.5 h-3.5 text-[#6B7A8D] ml-2 group-hover:text-[#00FFA3]" />
+            <span className="text-[#E6EDF3]">npm i @mamiy/chatbot</span>
+            {copied ? (
+        <Check className="w-3.5 h-3.5 text-[#00FFA3] ml-2" />
+      ) : (
+        <Copy onClick={handleCopy} className="w-3.5 h-3.5 text-[#6B7A8D] ml-2 group-hover:text-[#00FFA3]" />
+      )}
           </div>
         </div>
 
@@ -422,8 +433,6 @@ export default function LandingPage() {
           <ChatWidgetMock />
         </div>
       </section>
-
-      
 
       {/* ── HOW IT WORKS ── */}
       <section className="relative z-10 py-10 px-6 max-w-7xl mx-auto">
