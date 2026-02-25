@@ -111,11 +111,11 @@ function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          {["GitHub"].map((item) => (
+          {["GitHub", "Docs"].map((item) => (
             <Link
               key={item}
-              target="_blank"
-              href="https://github.com/Mamiy07/embed-chatbot"
+              
+              href={item === "GitHub" ? "https://github.com/Mamiy07/embed-chatbot" : "/docs"}
               className="text-sm font-medium text-[#6B7A8D] hover:text-[#00FFA3] transition-colors"
             >
               {item}
@@ -462,7 +462,7 @@ export default function LandingPage() {
             },
             {
               title: "Copy Component",
-              desc: "Drop the <EmbedAI /> component into your app.",
+              desc: "Drop the <Chatbot /> component into your app.",
               step: "03",
             },
           ].map((item, idx) => (
@@ -535,10 +535,10 @@ export default function LandingPage() {
                 <pre className="font-mono text-sm leading-relaxed">
                   <code className="block">
                     <span className="text-[#FF79C6]">import</span>{" "}
-                    <span className="text-[#E6EDF3]">{`{ EmbedAI }`}</span>{" "}
+                    <span className="text-[#E6EDF3]">{`{ Chatbot }`}</span>{" "}
                     <span className="text-[#FF79C6]">from</span>{" "}
                     <span className="text-[#F1FA8C]">
-                      &apos;@embedai/react&apos;
+                      &apos;@mamiy/chatbot&apos;
                     </span>
                   </code>
                   <code className="block mt-4">
@@ -552,20 +552,16 @@ export default function LandingPage() {
                     <span className="text-[#E6EDF3]"> (</span>
                   </code>
                   <code className="block pl-8 text-[#E6EDF3]">
-                    &lt;<span className="text-[#FF79C6]">EmbedAI</span>
+                    &lt;<span className="text-[#FF79C6]">Chatbot</span>
                   </code>
                   <code className="block pl-12">
-                    <span className="text-[#50FA7B]">embedId</span>
+                    <span className="text-[#50FA7B]">businessId</span>
                     <span className="text-[#E6EDF3]">=</span>
                     <span className="text-[#F1FA8C]">
                       &quot;your-unique-id&quot;
                     </span>
                   </code>
-                  <code className="block pl-12">
-                    <span className="text-[#50FA7B]">theme</span>
-                    <span className="text-[#E6EDF3]">=</span>
-                    <span className="text-[#F1FA8C]">&quot;dark&quot;</span>
-                  </code>
+                  
                   <code className="block pl-8 text-[#E6EDF3]">/&gt;</code>
                   <code className="block pl-4 text-[#E6EDF3]">)</code>
                   <code className="block text-[#E6EDF3]">{"}"}</code>
@@ -675,9 +671,6 @@ export default function LandingPage() {
             Your users deserve <br />
             <span className="text-[#00FFA3]">instant answers.</span>
           </h2>
-          <p className="text-xl text-[#6B7A8D] mb-10">
-            Join 2,000+ developers already shipping smarter support.
-          </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button className="px-8 py-4 bg-[#00FFA3] text-[#080B10] rounded-xl font-bold text-lg hover:bg-[#00FFA3]/90 hover:shadow-[0_0_30px_rgba(0,255,163,0.4)] transition-all">
               Start Building Free
@@ -690,63 +683,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="relative z-10 border-t border-[#1E2D3D] bg-[#050608] pt-20 pb-10 px-6">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-16">
-          <div>
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <Code className="w-6 h-6 text-[#00FFA3]" />
-              <span className="font-bold text-xl text-[#E6EDF3]">EmbedAI</span>
-            </Link>
-            <p className="text-[#6B7A8D] text-sm leading-relaxed">
-              The developer-first AI chatbot platform. Built for Next.js, scaled
-              for everyone.
-            </p>
-          </div>
-
-          {[
-            {
-              header: "Product",
-              links: ["Features", "Pricing", "Integrations", "Changelog"],
-            },
-            {
-              header: "Resources",
-              links: ["Documentation", "API Reference", "Showcase", "Blog"],
-            },
-            {
-              header: "Company",
-              links: ["About", "Careers", "Legal", "Contact"],
-            },
-          ].map((col) => (
-            <div key={col.header}>
-              <h4 className="font-bold text-[#E6EDF3] mb-4">{col.header}</h4>
-              <ul className="space-y-2">
-                {col.links.map((link) => (
-                  <li key={link}>
-                    <Link
-                      href="#"
-                      className="text-[#6B7A8D] text-sm hover:text-[#00FFA3] transition-colors"
-                    >
-                      {link}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <div className="max-w-7xl mx-auto border-t border-[#1E2D3D] pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#6B7A8D]">
-          <p>© 2026 EmbedAI Inc. All rights reserved.</p>
-          <div className="flex gap-6">
-            <Link href="#" className="hover:text-[#E6EDF3] transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="hover:text-[#E6EDF3] transition-colors">
-              Terms of Service
-            </Link>
-          </div>
-        </div>
-      </footer>
+    
     </div>
   );
 }
