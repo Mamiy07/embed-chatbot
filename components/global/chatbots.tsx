@@ -37,7 +37,7 @@ const Chatbots = () => {
 
   if (!data || data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-40 text-gray-400">
+      <div className="flex w-full h-100 items-center justify-center  text-gray-400">
         No chatbots created yet
       </div>
     )
