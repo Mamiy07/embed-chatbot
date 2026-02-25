@@ -49,17 +49,6 @@ const FEATURES = [
     description:
       "Auto-detects user language and translates responses instantly.",
   },
-  {
-    icon: BarChart,
-    title: "Analytics Dashboard",
-    description: "See what users are asking and improve your product content.",
-  },
-  {
-    icon: History,
-    title: "Context Memory",
-    description:
-      "Remembers conversation history for a natural chat experience.",
-  },
 ];
 
 const FAQS = [

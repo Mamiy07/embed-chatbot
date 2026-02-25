@@ -14,10 +14,28 @@ import { businessSchema } from '@/lib/schema'
 
 const EmbedButton = () => {
   const MODEL_OPTIONS: Record<string, string[]> = {
-  openai: ['gpt-4', 'gpt-4o', 'gpt-3.5-turbo'],
-  gemini: ['gemini-2.0-flash-lite','gemini-2.5-flash', 'gemini-1.5-pro'],
-  claude: ['claude-2', 'claude-3-sonnet'],
-} 
+  openai: [
+    'gpt-5-nano',
+    'gpt-5-mini',
+    'gpt-4.1-mini',
+    'gpt-5.1',
+    'gpt-5.2',
+  ],
+  gemini: [
+    'gemini-2.5-flash',
+    'gemini-2.5-flash-lite',
+    'gemini-3-flash',
+    'gemini-2.5-pro',
+    'gemini-3-pro',
+  ],
+  claude: [
+    'claude-haiku-4.5',
+    'claude-sonnet-4.5',
+    'claude-3.5-sonnet',
+    'claude-opus-4.5',
+    'claude-opus-4.6',
+  ],
+}
 const queryClient = useQueryClient()
    const [open, setOpen] = useState(false)
    const [businessName, setBusinessName] = useState('')
